@@ -53,4 +53,63 @@ Percentage of the requests served within a certain time (ms)
   95%     22   
   98%     27   
   99%     30   
- 100%     32 (longest request)   
+ 100%     32 (longest request)     
+       
+           
+### 1000 запросов без балансировки     
+
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>    
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/    
+Licensed to The Apache Software Foundation, http://www.apache.org/    
+
+Benchmarking localhost (be patient)   
+Completed 100 requests   
+Completed 200 requests   
+Completed 300 requests   
+Completed 400 requests    
+Completed 500 requests   
+Completed 600 requests   
+Completed 700 requests    
+Completed 800 requests   
+Completed 900 requests   
+Completed 1000 requests   
+Finished 1000 requests   
+   
+   
+Server Software:        nginx/1.14.0   
+Server Hostname:        localhost   
+Server Port:            80   
+   
+Document Path:          /api/v1/   
+Document Length:        139 bytes   
+   
+Concurrency Level:      15   
+Time taken for tests:   1.249 seconds   
+Complete requests:      1000   
+Failed requests:        0   
+Non-2xx responses:      1000   
+Total transferred:      541000 bytes   
+HTML transferred:       139000 bytes   
+Requests per second:    800.61 [#/sec] (mean)   
+Time per request:       18.736 [ms] (mean)   
+Time per request:       1.249 [ms] (mean, across all concurrent requests)   
+Transfer rate:          422.98 [Kbytes/sec] received   
+    
+Connection Times (ms)   
+              min  mean[+/-sd] median   max    
+Connect:        0    3   6.9      0      34   
+Processing:     2   15  10.1     12      50   
+Waiting:        2   12   5.9     11      47   
+Total:          5   18  10.6     14      50   
+    
+Percntage of the requests served within a certain time (ms)    
+  50%     14    
+  66%     18    
+  75%     23   
+  80%     27    
+  90%     34   
+  95%     40     
+  98%     46    
+  99%     47   
+ 100%     50 (longest request)    
+   
