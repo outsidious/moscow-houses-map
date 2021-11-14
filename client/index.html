@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- /building/?id=162959648 -->
+        <script>
+            let server = "http://localhost:3200";
+            async function main() {
+                const building = {
+                    address: "Москва, Волгоградский пр-кт, 128 к5",
+                    status: "ФУХ",
+                    builtDate: "19.05.2000",
+                    id: 24   
+                };
+                const res = await fetch(server + "/building", {
+                    method: "GET",
+                });
+                console.log(res);
+                const obj = await res.json();
+                console.log(obj);
+            }
+            main();
+        </script>
+    </body>
+</html>
