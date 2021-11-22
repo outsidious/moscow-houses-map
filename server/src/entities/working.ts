@@ -1,7 +1,7 @@
 import { Builder } from "./builder";
 import { BaseEntity } from "./base/base-entity";
 
-export class Working  extends BaseEntity{
+export class Working extends BaseEntity {
     period: string;
     builderId: number;
     id: number;
@@ -11,7 +11,7 @@ export class Working  extends BaseEntity{
     }
 }
 
-export class WorkingFull extends BaseEntity {  
+export class WorkingFull extends BaseEntity {
     period: string;
     id: number;
     builder: Builder;

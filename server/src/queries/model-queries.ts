@@ -2,13 +2,17 @@ import { ModelRepository } from "../repositories/end/model-repository";
 import { Model } from "../entities/model";
 import { Express } from "express";
 
-export function registerModelQueries(app: Express, loadBody: Function, modelRepo: ModelRepository) {
+export function registerModelQueries(
+    app: Express,
+    loadBody: Function,
+    modelRepo: ModelRepository
+) {
     app.get("/models", (req, res) => {
         modelRepo.findAll().then((value: Model[]) => {
             res.json(value);
         });
     });
-    
+
     app.get("/models/:id", (req, res) => {
         let id: number = Number(req.params.id);
         modelRepo.findOne(id).then((value: Model) => {
@@ -16,7 +20,7 @@ export function registerModelQueries(app: Express, loadBody: Function, modelRepo
             else res.status(404).json(`Model ${id} not found`);
         });
     });
-    
+
     app.delete("/models", (req, res) => {
         let id: number = Number(req.query.id);
         modelRepo.delete(id).then((value: boolean) => {
@@ -24,7 +28,7 @@ export function registerModelQueries(app: Express, loadBody: Function, modelRepo
             else res.status(400).json(`Model ${id} not found`);
         });
     });
-    
+
     app.post("/models", (req, res) => {
         loadBody(req, function (body: string) {
             const model: Model = JSON.parse(body);
@@ -34,7 +38,7 @@ export function registerModelQueries(app: Express, loadBody: Function, modelRepo
             });
         });
     });
-    
+
     app.put("/models", (req, res) => {
         loadBody(req, function (body: string) {
             const model: Model = JSON.parse(body);

@@ -2,13 +2,17 @@ import { NicknameRepository } from "../repositories/end/nickname-repository";
 import { Nickname } from "../entities/nickname";
 import { Express } from "express";
 
-export function registerNicknameQueries(app: Express, loadBody: Function, nicksRepo: NicknameRepository) {
+export function registerNicknameQueries(
+    app: Express,
+    loadBody: Function,
+    nicksRepo: NicknameRepository
+) {
     app.get("/nickames", (req, res) => {
         nicksRepo.findAll().then((value: Nickname[]) => {
             res.json(value);
         });
     });
-    
+
     app.get("/nicknames/:id", (req, res) => {
         let id: number = Number(req.params.id);
         nicksRepo.findOne(id).then((value: Nickname) => {
@@ -16,7 +20,7 @@ export function registerNicknameQueries(app: Express, loadBody: Function, nicksR
             else res.status(404).json(`Nickname ${id} not found`);
         });
     });
-    
+
     app.delete("/nicknames", (req, res) => {
         let id: number = Number(req.query.id);
         nicksRepo.delete(id).then((value: boolean) => {
@@ -24,7 +28,7 @@ export function registerNicknameQueries(app: Express, loadBody: Function, nicksR
             else res.status(400).json(`Nickname ${id} not found`);
         });
     });
-    
+
     app.post("/nicknames", (req, res) => {
         loadBody(req, function (body: string) {
             const nick: Nickname = JSON.parse(body);
@@ -34,7 +38,7 @@ export function registerNicknameQueries(app: Express, loadBody: Function, nicksR
             });
         });
     });
-    
+
     app.put("/nicknames", (req, res) => {
         loadBody(req, function (body: string) {
             const nick: Nickname = JSON.parse(body);

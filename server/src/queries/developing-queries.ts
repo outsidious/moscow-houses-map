@@ -2,14 +2,18 @@ import { DevelopingRepository } from "../repositories/end/developing-repository"
 import { Developing } from "../entities/developing";
 import { Express } from "express";
 
-export function registerDevelopingQueries(app: Express, loadBody: Function, developingRepo: DevelopingRepository) {
+export function registerDevelopingQueries(
+    app: Express,
+    loadBody: Function,
+    developingRepo: DevelopingRepository
+) {
     app.get("/architectors/:id/developing", (req, res) => {
         let id: number = Number(req.params.id);
         developingRepo.findAllByArch(id).then((value: Developing[]) => {
             res.json(value);
         });
     });
-    
+
     app.get("/architectors/:id1/developing/:id2", (req, res) => {
         let id1: number = Number(req.params.id1);
         let id2: number = Number(req.params.id2);
@@ -18,7 +22,7 @@ export function registerDevelopingQueries(app: Express, loadBody: Function, deve
             else res.status(404).json(`Object not found`);
         });
     });
-    
+
     app.delete("/architectors/:id1/developing/:id2", (req, res) => {
         let id1: number = Number(req.params.id1);
         let id2: number = Number(req.params.id2);
@@ -27,7 +31,7 @@ export function registerDevelopingQueries(app: Express, loadBody: Function, deve
             else res.status(400).json(`Object not found`);
         });
     });
-    
+
     app.post("/architectors/:id1/developing", (req, res) => {
         let id1: number = Number(req.params.id1);
         loadBody(req, function (body: string) {
@@ -38,14 +42,16 @@ export function registerDevelopingQueries(app: Express, loadBody: Function, deve
             });
         });
     });
-    
+
     app.put("/architectors/:id1/developing", (req, res) => {
         loadBody(req, function (body: string) {
             const developing: Developing = JSON.parse(body);
-            developingRepo.update(developing.id, developing).then((value: boolean) => {
-                if (!value) res.status(400).json(`Invalid input`);
-                else res.json(`Object updated`);
-            });
+            developingRepo
+                .update(developing.id, developing)
+                .then((value: boolean) => {
+                    if (!value) res.status(400).json(`Invalid input`);
+                    else res.json(`Object updated`);
+                });
         });
     });
 }

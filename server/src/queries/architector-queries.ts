@@ -2,13 +2,17 @@ import { ArchitectorRepository } from "../repositories/end/architector-repositor
 import { Architector } from "../entities/architector";
 import { Express } from "express";
 
-export function registerArchitectorQueries(app: Express, loadBody: Function, archRepo: ArchitectorRepository) {
+export function registerArchitectorQueries(
+    app: Express,
+    loadBody: Function,
+    archRepo: ArchitectorRepository
+) {
     app.get("/architectors", (req, res) => {
         archRepo.findAll().then((value: Architector[]) => {
             res.json(value);
         });
     });
-    
+
     app.get("/architectors/:id", (req, res) => {
         let id: number = Number(req.params.id);
         archRepo.findOne(id).then((value: Architector) => {
@@ -16,7 +20,7 @@ export function registerArchitectorQueries(app: Express, loadBody: Function, arc
             else res.status(404).json(`Architector ${id} not found`);
         });
     });
-    
+
     app.delete("/architectors", (req, res) => {
         let id: number = Number(req.query.id);
         archRepo.delete(id).then((value: boolean) => {
@@ -24,7 +28,7 @@ export function registerArchitectorQueries(app: Express, loadBody: Function, arc
             else res.status(400).json(`Architector ${id} not found`);
         });
     });
-    
+
     app.post("/architectors", (req, res) => {
         loadBody(req, function (body: string) {
             const arch: Architector = JSON.parse(body);
@@ -34,7 +38,7 @@ export function registerArchitectorQueries(app: Express, loadBody: Function, arc
             });
         });
     });
-    
+
     app.put("/architectors", (req, res) => {
         loadBody(req, function (body: string) {
             const arch: Architector = JSON.parse(body);

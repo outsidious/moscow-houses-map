@@ -26,7 +26,7 @@ export class DevelopingRepository extends PgRepository<Developing> {
         const q2 = `SELECT * FROM ${this.modelTablaName} WHERE id=${modelId};`;
         const res = await client.query(q2);
         const model = new Model(res.rows[0]);
-        const developingFull = {...developing, model};
+        const developingFull = { ...developing, model };
         client.release();
         return developingFull;
     }

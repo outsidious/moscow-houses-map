@@ -1,6 +1,6 @@
 import { BaseRepository } from "../base/baseRepository";
 import { Pool } from "pg";
-import { snakeCase } from "lodash"
+import { snakeCase } from "lodash";
 
 export abstract class PgRepository<T> implements BaseRepository<T> {
     pool: Pool = new Pool({
