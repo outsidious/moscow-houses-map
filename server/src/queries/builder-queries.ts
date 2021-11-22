@@ -2,13 +2,17 @@ import { BuilderRepository } from "../repositories/end/builder-repository";
 import { Builder } from "../entities/builder";
 import { Express } from "express";
 
-export function registerBuilderQueries(app: Express, loadBody: Function, builderRepo: BuilderRepository) {
+export function registerBuilderQueries(
+    app: Express,
+    loadBody: Function,
+    builderRepo: BuilderRepository
+) {
     app.get("/builders", (req, res) => {
         builderRepo.findAll().then((value: Builder[]) => {
             res.json(value);
         });
     });
-    
+
     app.get("/builders/:id", (req, res) => {
         let id: number = Number(req.params.id);
         builderRepo.findOne(id).then((value: Builder) => {
@@ -16,7 +20,7 @@ export function registerBuilderQueries(app: Express, loadBody: Function, builder
             else res.status(404).json(`Model ${id} not found`);
         });
     });
-    
+
     app.delete("/builders", (req, res) => {
         let id: number = Number(req.query.id);
         builderRepo.delete(id).then((value: boolean) => {
@@ -24,7 +28,7 @@ export function registerBuilderQueries(app: Express, loadBody: Function, builder
             else res.status(400).json(`Builder ${id} not found`);
         });
     });
-    
+
     app.post("/builders", (req, res) => {
         loadBody(req, function (body: string) {
             const builder: Builder = JSON.parse(body);
@@ -34,7 +38,7 @@ export function registerBuilderQueries(app: Express, loadBody: Function, builder
             });
         });
     });
-    
+
     app.put("/builders", (req, res) => {
         loadBody(req, function (body: string) {
             const builder: Builder = JSON.parse(body);

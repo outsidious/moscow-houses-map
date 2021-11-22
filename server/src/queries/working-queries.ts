@@ -46,12 +46,10 @@ export function registerWorkingQueries(
     app.put("/architectors/:id1/working", (req, res) => {
         loadBody(req, function (body: string) {
             const working: Working = JSON.parse(body);
-            workingRepo
-                .update(working.id, working)
-                .then((value: boolean) => {
-                    if (!value) res.status(400).json(`Invalid input`);
-                    else res.json(`Object updated`);
-                });
+            workingRepo.update(working.id, working).then((value: boolean) => {
+                if (!value) res.status(400).json(`Invalid input`);
+                else res.json(`Object updated`);
+            });
         });
     });
 }

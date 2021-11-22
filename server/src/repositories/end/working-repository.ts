@@ -26,8 +26,8 @@ export class WorkingRepository extends PgRepository<Working> {
         const builderId: number = working.builderId;
         const q2 = `SELECT * FROM ${this.builderTablaName} WHERE id=${builderId};`;
         const res = await client.query(q2);
-        const builder = new Builder(res.rows[0])
-        let workingFull: WorkingFull = {...working, builder};
+        const builder = new Builder(res.rows[0]);
+        let workingFull: WorkingFull = { ...working, builder };
         client.release();
         return workingFull;
     }

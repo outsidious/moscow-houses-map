@@ -1,5 +1,4 @@
 import { camelCase, mapKeys } from "lodash";
-import { type } from "os";
 
 export abstract class BaseEntity {
     constructor(object: any) {
