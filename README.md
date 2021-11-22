@@ -9,8 +9,12 @@
 
 
 ### User-Case   
-[usercase](https://git.iu7.bmstu.ru/vas18u187/iu7-web-2021-labs/-/raw/main/usercase.png)     
+![usercase](usercase.png)     
 
 
 ### ER   
-[er](Screenshot_7.jpg)
+![er](Screenshot_7.jpg)
+
+
+### Тестирование балансировки   
+[apashe](apashe-res.md)

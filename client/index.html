@@ -15,10 +15,13 @@
                     address: "Москва, Волгоградский пр-кт, 128 к5",
                     status: "ФУХ",
                     builtDate: "19.05.2000",
-                    id: 24   
+                    modelId: 1,
+                    builderId: 1,
+                    id: 10
                 };
-                const res = await fetch(server + "/building", {
-                    method: "GET",
+                const res = await fetch(server + "/buildings", {
+                    method: "POST",
+                    body: JSON.stringify(building),
                 });
                 console.log(res);
                 const obj = await res.json();

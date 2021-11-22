@@ -1,7 +1,8 @@
 import { ArchitectorRepository } from "../repositories/end/architector-repository";
 import { Architector } from "../entities/architector";
+import { Express } from "express";
 
-export function registerArchitectorQueries(app: any, loadBody: Function, archRepo: ArchitectorRepository) {
+export function registerArchitectorQueries(app: Express, loadBody: Function, archRepo: ArchitectorRepository) {
     app.get("/architectors", (req, res) => {
         archRepo.findAll().then((value: Architector[]) => {
             res.json(value);

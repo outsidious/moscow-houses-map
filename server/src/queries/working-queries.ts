@@ -1,8 +1,9 @@
 import { WorkingRepository } from "../repositories/end/working-repository";
-import { Working } from "../entities/working";
+import { Working, WorkingFull } from "../entities/working";
+import { Express } from "express";
 
 export function registerWorkingQueries(
-    app: any,
+    app: Express,
     loadBody: Function,
     workingRepo: WorkingRepository
 ) {
@@ -16,7 +17,7 @@ export function registerWorkingQueries(
     app.get("/architectors/:id1/working/:id2", (req, res) => {
         let id1: number = Number(req.params.id1);
         let id2: number = Number(req.params.id2);
-        workingRepo.findOneByArch(id1, id2).then((value: any) => {
+        workingRepo.findOneByArch(id1, id2).then((value: WorkingFull) => {
             if (value) res.json(value);
             else res.status(404).json(`Object not found`);
         });

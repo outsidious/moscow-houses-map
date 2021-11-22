@@ -1,5 +1,6 @@
 import { BaseRepository } from "../base/baseRepository";
 import { Pool } from "pg";
+import { snakeCase } from "lodash"
 
 export abstract class PgRepository<T> implements BaseRepository<T> {
     pool: Pool = new Pool({
@@ -15,8 +16,8 @@ export abstract class PgRepository<T> implements BaseRepository<T> {
         let pairs: string = "";
         for (let key in item) {
             if (key != "id") {
-                keys += `${key}, `;
-                pairs += `${key} = `;
+                keys += `${snakeCase(key)}, `;
+                pairs += `${snakeCase(key)} = `;
                 let val = item[key];
                 if (typeof val === "string") {
                     values += `'${val}', `;

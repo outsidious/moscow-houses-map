@@ -1,7 +1,8 @@
 import { BuilderRepository } from "../repositories/end/builder-repository";
 import { Builder } from "../entities/builder";
+import { Express } from "express";
 
-export function registerBuilderQueries(app: any, loadBody: Function, builderRepo: BuilderRepository) {
+export function registerBuilderQueries(app: Express, loadBody: Function, builderRepo: BuilderRepository) {
     app.get("/builders", (req, res) => {
         builderRepo.findAll().then((value: Builder[]) => {
             res.json(value);

@@ -1,7 +1,8 @@
 import { ModelRepository } from "../repositories/end/model-repository";
 import { Model } from "../entities/model";
+import { Express } from "express";
 
-export function registerModelQueries(app: any, loadBody: Function, modelRepo: ModelRepository) {
+export function registerModelQueries(app: Express, loadBody: Function, modelRepo: ModelRepository) {
     app.get("/models", (req, res) => {
         modelRepo.findAll().then((value: Model[]) => {
             res.json(value);

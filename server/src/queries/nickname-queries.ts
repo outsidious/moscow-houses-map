@@ -1,7 +1,8 @@
 import { NicknameRepository } from "../repositories/end/nickname-repository";
 import { Nickname } from "../entities/nickname";
+import { Express } from "express";
 
-export function registerNicknameQueries(app: any, loadBody: Function, nicksRepo: NicknameRepository) {
+export function registerNicknameQueries(app: Express, loadBody: Function, nicksRepo: NicknameRepository) {
     app.get("/nickames", (req, res) => {
         nicksRepo.findAll().then((value: Nickname[]) => {
             res.json(value);

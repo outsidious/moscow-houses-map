@@ -1,7 +1,8 @@
 import { BuildingRepository } from "../repositories/end/building-repository";
-import { Building } from "../entities/building";
+import { Building, BuildingFull } from "../entities/building";
+import { Express } from "express";
 
-export function registerBuildingQueries(app: any, loadBody: Function, buildingRepo: BuildingRepository) {
+export function registerBuildingQueries(app: Express, loadBody: Function, buildingRepo: BuildingRepository) {
     app.get("/buildings", (req, res) => {
         buildingRepo.findAll().then((value: Building[]) => {
             res.json(value);
@@ -10,7 +11,7 @@ export function registerBuildingQueries(app: any, loadBody: Function, buildingRe
     
     app.get("/buildings/:id", (req, res) => {
         let id: number = Number(req.params.id);
-        buildingRepo.findFullBuildingInfo(id).then((value: Building) => {
+        buildingRepo.findFullBuildingInfo(id).then((value: BuildingFull) => {
             if (value) res.json(value);
             else res.status(404).json(`Building ${id} not found`);
         });
@@ -28,7 +29,7 @@ export function registerBuildingQueries(app: any, loadBody: Function, buildingRe
         loadBody(req, function (body: string) {
             const building: Building = JSON.parse(body);
             buildingRepo.create(building).then((id: number) => {
-                if (id == -1) res.status(405).json(`Invalid input`);
+                if (id === -1) res.status(405).json(`Invalid input`);
                 else res.json({ id });
             });
         });
