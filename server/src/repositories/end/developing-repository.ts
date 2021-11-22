@@ -1,4 +1,5 @@
 import { Developing } from "../../entities/developing";
+import { Model } from "../../entities/model";
 import { PgRepository } from "../postgres/pgRepository";
 
 export class DevelopingRepository extends PgRepository<Developing> {
@@ -10,29 +11,29 @@ export class DevelopingRepository extends PgRepository<Developing> {
 
     async findAllByArch(archId: number): Promise<Developing[]> {
         const client = await this.pool.connect();
-        const q = `SELECT * FROM ${this.tableName} WHERE archId=${archId};`;
+        const q = `SELECT * FROM ${this.tableName} WHERE arch_id=${archId};`;
         const { rows } = await client.query(q);
         client.release();
-        return rows;
+        return rows.map((row: any) => new Developing(row));
     }
 
     async findOneByArch(archId: number, id: number): Promise<any> {
         const client = await this.pool.connect();
-        const q1 = `SELECT * FROM ${this.tableName} WHERE archId=${archId} AND ${this.tableName}.id=${id};`;
+        const q1 = `SELECT * FROM ${this.tableName} WHERE arch_id=${archId} AND ${this.tableName}.id=${id};`;
         const { rows } = await client.query(q1);
-        let obj = rows[0];
-        let modelId = await obj.modelid;
+        const developing = new Developing(rows[0]);
+        let modelId = developing.modelId;
         const q2 = `SELECT * FROM ${this.modelTablaName} WHERE id=${modelId};`;
         const res = await client.query(q2);
-        obj.model = res.rows[0];
-        delete obj.modelid;
+        const model = new Model(res.rows[0]);
+        const developingFull = {...developing, model};
         client.release();
-        return obj;
+        return developingFull;
     }
 
     async deleteByArch(archId: number, id: number): Promise<boolean> {
         const client = await this.pool.connect();
-        const q = `DELETE FROM ${this.tableName} WHERE archId=${archId}, id=${id};`;
+        const q = `DELETE FROM ${this.tableName} WHERE arch_id=${archId}, id=${id};`;
         const { rowCount } = await client.query(q);
         client.release();
         return rowCount > 0;

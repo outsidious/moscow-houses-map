@@ -1,7 +1,8 @@
 import { DevelopingRepository } from "../repositories/end/developing-repository";
 import { Developing } from "../entities/developing";
+import { Express } from "express";
 
-export function registerDevelopingQueries(app: any, loadBody: Function, developingRepo: DevelopingRepository) {
+export function registerDevelopingQueries(app: Express, loadBody: Function, developingRepo: DevelopingRepository) {
     app.get("/architectors/:id/developing", (req, res) => {
         let id: number = Number(req.params.id);
         developingRepo.findAllByArch(id).then((value: Developing[]) => {

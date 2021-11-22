@@ -5,7 +5,7 @@ import { ArchitectorRepository } from "./repositories/end/architector-repository
 import { NicknameRepository } from "./repositories/end/nickname-repository";
 import { DevelopingRepository } from "./repositories/end/developing-repository";
 import { WorkingRepository } from "./repositories/end/working-repository";
-import { Request } from "express";
+import { Express, Request } from "express";
 import express from "express";
 
 import { registerBuildingQueries } from "./queries/building-queries";
@@ -16,8 +16,7 @@ import { registerBuilderQueries } from "./queries/builder-queries";
 import { registerNicknameQueries } from "./queries/nickname-queries";
 import { registerWorkingQueries } from "./queries/working-queries";
 
-
-const app = express();
+const app: Express = express();
 
 app.use((req, res, next) => {
     res.append("Access-Control-Allow-Origin", ["*"]);

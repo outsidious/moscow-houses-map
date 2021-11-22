@@ -1,4 +1,5 @@
-import { Working } from "../../entities/working";
+import { Builder } from "../../entities/builder";
+import { Working, WorkingFull } from "../../entities/working";
 import { PgRepository } from "../postgres/pgRepository";
 
 export class WorkingRepository extends PgRepository<Working> {
@@ -6,33 +7,34 @@ export class WorkingRepository extends PgRepository<Working> {
         super();
         this.tableName = "working";
     }
-    builderTablaName = "builder";
+    builderTablaName = "building_companies";
 
     async findAllByArch(archId: number): Promise<Working[]> {
         const client = await this.pool.connect();
-        const q = `SELECT * FROM ${this.tableName} WHERE archId=${archId};`;
+        const q = `SELECT * FROM ${this.tableName} WHERE arch_id=${archId};`;
         const { rows } = await client.query(q);
         client.release();
-        return rows;
+        const elems: Working[] = rows.map((row: any) => new Working(row));
+        return elems;
     }
 
-    async findOneByArch(archId: number, id: number): Promise<any> {
+    async findOneByArch(archId: number, id: number): Promise<WorkingFull> {
         const client = await this.pool.connect();
-        const q1 = `SELECT * FROM ${this.tableName} WHERE archId=${archId} AND ${this.tableName}.id=${id};`;
+        const q1 = `SELECT id, builder_id, period FROM ${this.tableName} WHERE arch_id=${archId} AND ${this.tableName}.id=${id};`;
         const { rows } = await client.query(q1);
-        let obj = rows[0];
-        let builderId = await obj.builderid;
+        const working: Working = new Working(rows[0]);
+        const builderId: number = working.builderId;
         const q2 = `SELECT * FROM ${this.builderTablaName} WHERE id=${builderId};`;
         const res = await client.query(q2);
-        obj.builder = res.rows[0];
-        delete obj.builderid;
+        const builder = new Builder(res.rows[0])
+        let workingFull: WorkingFull = {...working, builder};
         client.release();
-        return obj;
+        return workingFull;
     }
 
     async deleteByArch(archId: number, id: number): Promise<boolean> {
         const client = await this.pool.connect();
-        const q = `DELETE FROM ${this.tableName} WHERE archId=${archId} AND id=${id};`;
+        const q = `DELETE FROM ${this.tableName} WHERE arch_id=${archId} AND id=${id};`;
         const { rowCount } = await client.query(q);
         client.release();
         return rowCount > 0;
